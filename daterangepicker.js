@@ -48,6 +48,7 @@
         this.linkedCalendars = true;
         this.autoUpdateInput = true;
         this.alwaysShowCalendars = false;
+        this.compareDateRanges = false;
         this.ranges = {};
 
         this.opens = 'right';
@@ -117,6 +118,7 @@
                 '</div>' +
                 '<div class="ranges">' +
                     '<div class="range_inputs">' +
+                        '<div class="compare_inputs"></div>' +
                         '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
                         '<button class="cancelBtn" type="button"></button>' +
                     '</div>' +
@@ -262,6 +264,9 @@
 
         if (typeof options.alwaysShowCalendars === 'boolean')
             this.alwaysShowCalendars = options.alwaysShowCalendars;
+        
+        if (typeof options.compareDateRanges === 'boolean')
+            this.compareDateRanges = options.compareDateRanges;
 
         // update day names order to firstDay
         if (this.locale.firstDay != 0) {
@@ -538,6 +543,7 @@
             }
             this.updateMonthsInView();
             this.updateCalendars();
+            this.renderCompareUI();
             this.updateFormInputs();
         },
 
@@ -611,6 +617,17 @@
             if (this.endDate == null) return;
 
             this.calculateChosenLabel();
+        },
+
+        renderCompareUI: function(){
+
+            //
+            // Build toggles and input fields for compare ability
+            //
+            if (this.compareDateRanges) {
+                var html = '<input type="checkbox" name="compare" value="">Compare<br>'
+                this.container.find('.compare_inputs').html(html); 
+            }
         },
 
         renderCalendar: function(side) {
