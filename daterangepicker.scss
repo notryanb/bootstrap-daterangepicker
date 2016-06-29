@@ -609,3 +609,11 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     }
   }
 }
+
+.compare-container {
+  input, select {
+    margin: 5px 0;
+    display: block;
+    width: 150px;
+  }
+}

@@ -368,6 +368,20 @@
             this.container.find('.applyBtn, .cancelBtn').addClass('hide');
         }
 
+        if (this.compareDateRanges) {
+            var html = '<input type="checkbox" name="compare" value="">Compare<br>'
+            html += '<div class="compare-container hidden">' +
+                      '<select class="period-select">' +
+                        '<option value="previous">Previous</option>' +
+                        '<option value="year">Year</option>' +
+                        '<option value="custom">Custom</option>' +
+                      '</select>' +
+                      '<input type="text" name="compare_start_date" val="">' +
+                      '<input type="text" name="compare_end_date" val="">' +
+                    '</div>'
+            this.container.find('.compare_inputs').html(html); 
+        }
+
         if (this.singleDatePicker) {
             this.container.addClass('single');
             this.container.find('.calendar.left').addClass('single');
@@ -404,7 +418,6 @@
         //
         // event listeners
         //
-
         this.container.find('.calendar')
             .on('click.daterangepicker', '.prev', $.proxy(this.clickPrev, this))
             .on('click.daterangepicker', '.next', $.proxy(this.clickNext, this))
@@ -422,6 +435,7 @@
         this.container.find('.ranges')
             .on('click.daterangepicker', 'button.applyBtn', $.proxy(this.clickApply, this))
             .on('click.daterangepicker', 'button.cancelBtn', $.proxy(this.clickCancel, this))
+            .on('click.daterangepicker', 'input[name="compare"]', $.proxy(this.clickCompare, this))
             .on('click.daterangepicker', 'li', $.proxy(this.clickRange, this))
             .on('mouseenter.daterangepicker', 'li', $.proxy(this.hoverRange, this))
             .on('mouseleave.daterangepicker', 'li', $.proxy(this.updateFormInputs, this));
@@ -543,7 +557,6 @@
             }
             this.updateMonthsInView();
             this.updateCalendars();
-            this.renderCompareUI();
             this.updateFormInputs();
         },
 
@@ -617,17 +630,6 @@
             if (this.endDate == null) return;
 
             this.calculateChosenLabel();
-        },
-
-        renderCompareUI: function(){
-
-            //
-            // Build toggles and input fields for compare ability
-            //
-            if (this.compareDateRanges) {
-                var html = '<input type="checkbox" name="compare" value="">Compare<br>'
-                this.container.find('.compare_inputs').html(html); 
-            }
         },
 
         renderCalendar: function(side) {
@@ -1399,6 +1401,15 @@
             this.endDate = this.oldEndDate;
             this.hide();
             this.element.trigger('cancel.daterangepicker', this);
+        },
+
+        clickCompare: function(e) {
+           if (e.target.checked) {
+              $('.compare-container').removeClass('hidden');
+              // AutoFill Inputs
+           } else {
+              $('.compare-container').addClass('hidden');
+           }
         },
 
         monthOrYearChanged: function(e) {

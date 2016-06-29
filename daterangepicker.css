@@ -267,3 +267,9 @@
     float: right; }
   .daterangepicker .calendar.left {
     clear: none !important; } }
+.compare-container input, .compare-container select {
+  margin: 5px 0;
+  display: block;
+  width: 150px; }
+
+/*# sourceMappingURL=daterangepicker.css.map */
