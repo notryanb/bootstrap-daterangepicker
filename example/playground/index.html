@@ -21,38 +21,38 @@
     <script type="text/javascript" src="../../moment.js"></script>
     <script type="text/javascript" src="../../daterangepicker.js"></script>
     <script>
+      var dateRanges = {
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+        'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().startOf('year').subtract(1, 'days')],
+        'Past 7 Days': [moment().subtract(7, 'days'), moment().subtract(1, 'days')],
+        'Past 14 Days': [moment().subtract(14, 'days'), moment().subtract(1, 'days')],
+        'Past 30 Days': [moment().subtract(30, 'days'), moment().subtract(1, 'days')],
+        'Past 3 Months': [moment().subtract(2, 'month').startOf('month'), moment().subtract(1, 'days')],
+        'Past Year': [moment().subtract(1, 'year'), moment().subtract(1, 'days')],
+        'Month to Date': [moment().startOf('month'), moment().subtract(1, 'days')],
+        'Year to Date': [moment().startOf('year'), moment().subtract(1, 'days')]
+      };
+      
+      var comparePeriodDateRanges = {
+        'Last Month': [moment().subtract(2, 'months').startOf('month'), moment().subtract(2, 'months').endOf('month')],
+        'Last Year': [moment().subtract(2, 'years').startOf('year'), moment().startOf('year').subtract(1, 'days').subtract(1, 'year')],
+        'Past 7 Days': [moment().subtract(14, 'days'), moment().subtract(8, 'days')],
+        'Past 14 Days': [moment().subtract(28, 'days'), moment().subtract(15, 'days')],
+        'Past 30 Days': [moment().subtract(60, 'days'), moment().subtract(31, 'days')],
+        'Past 3 Months': [moment().subtract(6, 'months').startOf('month'), moment().subtract(1, 'days').subtract(3, 'months')],
+        'Past Year': [moment().subtract(2, 'years'), moment().subtract(1, 'days').subtract(1, 'years')],
+        'Month to Date': [moment().startOf('months').subtract(1, 'months'), moment().subtract(1, 'days').subtract(1, 'months')],
+        'Year to Date': [moment().startOf('years').subtract(1, 'months').subtract(1, 'years'), moment().subtract(1, 'days').subtract(1, 'years')]
+      };
+
       $('#demo').daterangepicker({
         "compareDateRanges": true,
-        "ranges": {
-          "Today": [
-          "2016-06-28T15:10:45.713Z",
-          "2016-06-28T15:10:45.713Z"
-          ],
-          "Yesterday": [
-          "2016-06-27T15:10:45.713Z",
-          "2016-06-27T15:10:45.713Z"
-          ],
-          "Last 7 Days": [
-          "2016-06-22T15:10:45.713Z",
-          "2016-06-28T15:10:45.713Z"
-          ],
-          "Last 30 Days": [
-          "2016-05-30T15:10:45.713Z",
-          "2016-06-28T15:10:45.713Z"
-          ],
-          "This Month": [
-          "2016-06-01T04:00:00.000Z",
-          "2016-07-01T03:59:59.999Z"
-          ],
-          "Last Month": [
-          "2016-05-01T04:00:00.000Z",
-          "2016-06-01T03:59:59.999Z"
-          ]
-        },
+        "compareRanges": comparePeriodDateRanges,
+        "ranges": dateRanges,
+        "linkedCalendars": false,
+        "alwaysShowCalendars": true,
         "startDate": "06/22/2016",
         "endDate": "06/28/2016"
-        }, function(start, end, label) {
-        console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
       });
     </script>
   </body>

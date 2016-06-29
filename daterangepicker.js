@@ -50,6 +50,7 @@
         this.alwaysShowCalendars = false;
         this.compareDateRanges = false;
         this.ranges = {};
+        this.compareRanges = {};
 
         this.opens = 'right';
         if (this.element.hasClass('pull-right'))
@@ -265,7 +266,7 @@
         if (typeof options.alwaysShowCalendars === 'boolean')
             this.alwaysShowCalendars = options.alwaysShowCalendars;
         
-        if (typeof options.compareDateRanges === 'boolean')
+        if ((typeof options.compareDateRanges === 'boolean') && (options.compareRanges))
             this.compareDateRanges = options.compareDateRanges;
 
         // update day names order to firstDay
@@ -347,6 +348,11 @@
             list += '</ul>';
             this.container.find('.ranges').prepend(list);
         }
+        
+        // Compare Date Ranges 
+        if (typeof options.compareRanges === 'object') {
+          this.compareRanges = options.compareRanges;
+        }
 
         if (typeof cb === 'function') {
             this.callback = cb;
@@ -371,13 +377,13 @@
         if (this.compareDateRanges) {
             var html = '<input type="checkbox" name="compare" value="">Compare<br>'
             html += '<div class="compare-container hidden">' +
-                      '<select class="period-select">' +
+                      '<select name="period_select" class="period-select">' +
                         '<option value="previous">Previous</option>' +
                         '<option value="year">Year</option>' +
                         '<option value="custom">Custom</option>' +
                       '</select>' +
-                      '<input type="text" name="compare_start_date" val="">' +
-                      '<input type="text" name="compare_end_date" val="">' +
+                      '<input class="form-control" type="text" name="compare_start_date" val="" disabled>' +
+                      '<input class="form-control" type="text" name="compare_end_date" val="" disabled>' +
                     '</div>'
             this.container.find('.compare_inputs').html(html); 
         }
@@ -436,6 +442,7 @@
             .on('click.daterangepicker', 'button.applyBtn', $.proxy(this.clickApply, this))
             .on('click.daterangepicker', 'button.cancelBtn', $.proxy(this.clickCancel, this))
             .on('click.daterangepicker', 'input[name="compare"]', $.proxy(this.clickCompare, this))
+            .on('change.daterangepicker', 'select[name="period_select"]', $.proxy(this.calculateCompare, this))
             .on('click.daterangepicker', 'li', $.proxy(this.clickRange, this))
             .on('mouseenter.daterangepicker', 'li', $.proxy(this.hoverRange, this))
             .on('mouseleave.daterangepicker', 'li', $.proxy(this.updateFormInputs, this));
@@ -1219,6 +1226,7 @@
 
                 if (!this.alwaysShowCalendars)
                     this.hideCalendars();
+                this.calculateCompare();
                 this.clickApply();
             }
         },
@@ -1406,10 +1414,52 @@
         clickCompare: function(e) {
            if (e.target.checked) {
               $('.compare-container').removeClass('hidden');
-              // AutoFill Inputs
+              this.calculateCompare();
            } else {
               $('.compare-container').addClass('hidden');
            }
+        },
+
+        compareRange: function(e) {
+          return $('.period-select').val();
+        },
+
+        calculateCompare: function(e) {
+          var compareToRange = this.compareRange();
+
+          if (compareToRange === "previous"){
+            this.calculateComparePrevious();
+          } else if (compareToRange === "year") {
+            this.calculateCompareYear();
+          } else {
+            this.calculateCompareCustom();
+          }
+        },
+
+        calculateComparePrevious: function(e) {
+            var startDate = this.startDate.clone(),
+                endDate = this.endDate.clone(),
+                compareStart = this.compareRanges[this.chosenLabel][0],
+                compareEnd = this.compareRanges[this.chosenLabel][1];
+
+            $('input[name="compare_start_date"]').val(compareStart.format('MM/DD/YYYY'));
+            $('input[name="compare_end_date"]').val(compareEnd.format('MM/DD/YYYY'));
+        },
+        
+        calculateCompareYear: function(e) {
+            var startDate = this.oldStartDate,
+                endDate = this.oldEndDate,
+                periodStart = startDate.subtract(1, 'years'),
+                periodEnd = endDate.subtract(1, 'years');
+
+            $('input[name="compare_start_date"]').val(periodStart.format('MM/DD/YYYY'));
+            $('input[name="compare_end_date"]').val(periodEnd.format('MM/DD/YYYY'));
+        },
+
+        calculateCompareCustom: function(e) {
+        },
+
+        updateCompare: function(e) {
         },
 
         monthOrYearChanged: function(e) {
