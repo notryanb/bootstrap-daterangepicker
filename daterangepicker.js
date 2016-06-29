@@ -386,6 +386,16 @@
                       '<input class="form-control" type="text" name="compare_end_date" val="" disabled>' +
                     '</div>'
             this.container.find('.compare_inputs').html(html); 
+            
+            $('input[name="compare_start_date"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true   
+            });
+            
+            $('input[name="compare_end_date"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true   
+            });
         }
 
         if (this.singleDatePicker) {
