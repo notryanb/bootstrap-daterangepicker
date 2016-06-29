@@ -1426,6 +1426,8 @@
 
         calculateCompare: function(e) {
           var compareToRange = this.compareRange();
+          $('input[name="compare_start_date"]').prop('disabled', true);
+          $('input[name="compare_end_date"]').prop('disabled', true);
 
           if (compareToRange === "previous"){
             this.calculateComparePrevious();
@@ -1457,6 +1459,8 @@
         },
 
         calculateCompareCustom: function(e) {
+            $('input[name="compare_start_date"]').prop('disabled', false);
+            $('input[name="compare_end_date"]').prop('disabled', false);
         },
 
         updateCompare: function(e) {
