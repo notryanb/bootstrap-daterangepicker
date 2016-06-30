@@ -267,9 +267,64 @@
     float: right; }
   .daterangepicker .calendar.left {
     clear: none !important; } }
-.compare-container input, .compare-container select {
-  margin: 5px 0;
+.compare-container input {
+  display: inline-block;
+  font-size: 13px;
+  padding: 4px;
+  width: 78px;
+  height: 30px; }
+  .compare-container input:first-of-type {
+    margin: 5px 3px 10px 0; }
+  .compare-container input:last-of-type {
+    margin: 5px 0 10px 3px; }
+.compare-container select {
+  margin-bottom: 5px;
   display: block;
-  width: 150px; }
+  width: 160px; }
+
+#compare-checkbox {
+  width: 160px;
+  display: inline-block; }
+  #compare-checkbox input {
+    display: block;
+    opacity: 0;
+    margin: -5px 0 !important; }
+  #compare-checkbox label {
+    width: 40px;
+    height: 20px;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    background: #bdbdbd;
+    border-radius: 30px;
+    margin-bottom: -6px;
+    margin-right: 5px;
+    margin-left: 2px;
+    transition: background-color 0.4s;
+    -moz-transition: background-color 0.4s;
+    -webkit-transition: background-color 0.4s; }
+  #compare-checkbox label:after {
+    left: 0;
+    width: 10px;
+    height: 10px;
+    margin: 5px;
+    content: '';
+    position: absolute;
+    background: #FFF;
+    border-radius: 10px; }
+  #compare-checkbox input:checked + label {
+    background: #08c; }
+  #compare-checkbox input:checked + label:after {
+    left: auto;
+    right: 0; }
+  #compare-checkbox p {
+    font-size: 13px;
+    color: #bdbdbd;
+    display: none; }
+  #compare-checkbox input:checked ~ p:nth-of-type(1) {
+    color: #08c;
+    display: inline-block; }
+  #compare-checkbox input:not(:checked) ~ p:nth-of-type(2) {
+    display: inline-block; }
 
 /*# sourceMappingURL=daterangepicker.css.map */
